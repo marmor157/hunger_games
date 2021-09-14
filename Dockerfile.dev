@@ -1,0 +1,18 @@
+FROM hexpm/elixir:1.12.2-erlang-24.0.3-alpine-3.14.0
+
+ENV LANG=C.UTF-8
+
+RUN \
+  apk update && \
+  apk add --no-cache inotify-tools make && \
+  mix local.hex --force && \
+  mix local.rebar --force
+
+WORKDIR /app
+
+ADD bin/docker-entrypoint-dev.sh bin/docker-entrypoint-dev.sh
+
+EXPOSE 4000
+
+ENTRYPOINT ["bin/docker-entrypoint-dev.sh"]
+CMD mix phx.server

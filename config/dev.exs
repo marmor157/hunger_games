@@ -1,13 +1,7 @@
 import Config
 
 # Configure your database
-config :hunger_games, HungerGames.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "hunger_games_dev",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+config :hunger_games, HungerGames.Repo, show_sensitive_data_on_connection_error: true
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -18,7 +12,7 @@ config :hunger_games, HungerGames.Repo,
 config :hunger_games, HungerGamesWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

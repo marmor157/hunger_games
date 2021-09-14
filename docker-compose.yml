@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  hunger_games:
+    container_name: hunger_games
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env.example
+    networks:
+      hunger_games:
+        ipv4_address: 172.28.1.101
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+      - backend-elixir-build:/app/_build
+      - backend-elixir-deps:/app/deps
+      - backend-node_modules:/app/assets/node_modules
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: hunger_games_postgres
+    image: postgres:12.2
+    networks:
+      hunger_games:
+        ipv4_address: 172.28.1.221
+    env_file:
+      - .env.example
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+volumes:
+  backend-elixir-build:
+  backend-elixir-deps:
+  backend-node_modules:
+  postgres-data:
+
+networks:
+  hunger_games:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.1.0/24
