@@ -1,0 +1,6 @@
+query getSystemStatus {
+  system {
+    status
+    version
+  }
+}

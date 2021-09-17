@@ -15,7 +15,7 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "sort-imports-es6-autofix"],
   "rules": {
     "sort-imports": "error",
     "@typescript-eslint/no-inferrable-types": "off",

@@ -6,20 +6,29 @@
   "author": "Mariusz Morawski",
   "license": "ISC",
   "scripts": {
-    "deploy": "npm ci && webpack --mode production",
+    "predeploy": "npm ci && npm run graphql:local",
+    "deploy": "webpack --mode production",
     "watch": "webpack --mode development --watch",
     "start": "npm run watch",
     "format": "prettier --write .",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx --no-error-on-unmatched-pattern",
-    "lint:prettier": "prettier --check ."
+    "lint:prettier": "prettier --check .",
+    "graphql": "bin/graphql-codegen.js remote watch",
+    "graphql:local": "bin/graphql-codegen.js local"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.11",
     "esbuild": "^0.12.28",
+    "graphql": "^15.5.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.2.0",
+    "@graphql-codegen/typescript": "2.2.2",
+    "@graphql-codegen/typescript-operations": "2.1.4",
+    "@graphql-codegen/typescript-react-apollo": "3.1.4",
     "@tsconfig/recommended": "^1.0.1",
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
@@ -35,6 +44,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.3.3",
     "mini-css-extract-plugin": "^2.3.0",

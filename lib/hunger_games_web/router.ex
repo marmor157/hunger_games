@@ -14,6 +14,23 @@ defmodule HungerGamesWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :graphql do
+    plug :accepts, ["json", "graphql"]
+    # Needed for testing authorized queries in GraphQL Playground
+    # and HTTP Upload requests
+    # plug HungerGamesWeb.Context.HttpPlug
+  end
+
+  scope "/api/v1" do
+    pipe_through :graphql
+
+    if Mix.env() == :dev do
+      forward "/graphiql", Absinthe.Plug.GraphiQL, interface: :playground
+    end
+
+    forward "/", Absinthe.Plug
+  end
+
   scope "/", HungerGamesWeb do
     pipe_through :browser
 

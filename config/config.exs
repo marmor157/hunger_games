@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+# Configures Absinthe GraphQL
+config :absinthe,
+  schema: HungerGamesWeb.Schema
+
 config :hunger_games,
   ecto_repos: [HungerGames.Repo]
 
