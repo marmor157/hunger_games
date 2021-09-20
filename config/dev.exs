@@ -17,6 +17,13 @@ config :hunger_games, HungerGamesWeb.Endpoint,
       "--",
       "--watch-options-stdin",
       cd: Path.expand("../assets", __DIR__)
+    ],
+    npm: [
+      "run",
+      "graphql",
+      "--",
+      "--watch-options-stdin",
+      cd: Path.expand("../assets", __DIR__)
     ]
   ]
 
