@@ -2,6 +2,8 @@ defmodule HungerGamesWeb.Schema do
   use Absinthe.Schema
 
   # Types
+  import_types(Absinthe.Type.Custom)
+
   import_types(HungerGamesWeb.Schema.SystemTypes)
 
   # Queries
@@ -10,5 +12,9 @@ defmodule HungerGamesWeb.Schema do
 
   query do
     import_fields(:system_queries)
+  end
+
+  def context(ctx) do
+    Map.put(ctx, :loader, HungerGamesWeb.Dataloader.loader())
   end
 end

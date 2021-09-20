@@ -50,7 +50,8 @@ defmodule HungerGames.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:absinthe, "~> 1.6"},
       {:absinthe_plug, "~> 1.5"},
-      {:telemetry, "~> 0.4.0", override: true}
+      {:telemetry, "~> 0.4.0", override: true},
+      {:dataloader, "~> 1.0"}
     ]
   end
 
