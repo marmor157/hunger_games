@@ -7,13 +7,13 @@ defmodule HungerGamesWeb.Schema.ScheduleTypes do
     field :id, non_null(:id)
     field :name, non_null(:string)
 
-    field :subjects, non_null(list_of(non_null(:subject))) do
+    field :classes, non_null(list_of(non_null(:class))) do
       resolve(dataloader(:db))
     end
   end
 
   input_object :schedule_input do
     field :name, non_null(:string)
-    field :subjects, non_null(list_of(non_null(:subject_input)))
+    field :classes, non_null(list_of(non_null(:class_input)))
   end
 end
