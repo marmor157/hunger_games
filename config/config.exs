@@ -12,7 +12,8 @@ config :absinthe,
   schema: HungerGamesWeb.Schema
 
 config :hunger_games,
-  ecto_repos: [HungerGames.Repo]
+  ecto_repos: [HungerGames.Repo],
+  generators: [binary_id: true]
 
 # Configures the endpoint
 config :hunger_games, HungerGamesWeb.Endpoint,
