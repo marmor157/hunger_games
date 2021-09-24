@@ -28,4 +28,8 @@ defmodule HungerGamesWeb.Schema do
   def context(ctx) do
     Map.put(ctx, :loader, HungerGamesWeb.Dataloader.loader())
   end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+  end
 end

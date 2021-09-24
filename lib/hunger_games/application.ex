@@ -26,6 +26,15 @@ defmodule HungerGames.Application do
     Supervisor.start_link(children, opts)
   end
 
+  @impl true
+  def start_phase(:migrate, :normal, _opts) do
+    if HungerGames.Release.migrate() do
+      :ok
+    else
+      {:error, :migration_error}
+    end
+  end
+
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   @impl true
