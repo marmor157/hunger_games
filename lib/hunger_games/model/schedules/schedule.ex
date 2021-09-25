@@ -4,7 +4,8 @@ defmodule HungerGames.Schedules.Schedule do
 
   @type t :: %__MODULE__{
           id: id(),
-          name: String.t()
+          name: String.t(),
+          classes: [Class.t()] | Ecto.Association.NotLoaded.t()
         }
 
   @required_keys [:name]
@@ -12,6 +13,8 @@ defmodule HungerGames.Schedules.Schedule do
 
   schema "schedules" do
     field :name, :string
+
+    has_many :classes, HungerGames.Classes.Class
 
     timestamps()
   end

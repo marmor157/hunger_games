@@ -2,7 +2,7 @@ defmodule HungerGames.Classes.Class do
   use HungerGames.Schema
   import Ecto.Changeset
 
-  alias HungerGames.Students.Student
+  alias HungerGames.{Students.Student, Schedules.Schedule}
 
   @type t :: %__MODULE__{
           id: id(),
@@ -10,7 +10,8 @@ defmodule HungerGames.Classes.Class do
           rrule: String.t(),
           size_limit: Integer.t(),
           type: String.t(),
-          students: [Student.t()] | Ecto.Association.NotLoaded.t()
+          students: [Student.t()] | Ecto.Association.NotLoaded.t(),
+          schedule: Schedule.t() | Ecto.Association.NotLoaded.t()
         }
 
   @required_keys [:name, :rrule, :size_limit, :type]
@@ -22,7 +23,9 @@ defmodule HungerGames.Classes.Class do
     field :size_limit, :integer
     field :type, :string
 
-    many_to_many :students, HungerGames.Students.Student, join_through: "students_classes"
+    belongs_to :schedule, Schedule
+
+    many_to_many :students, Student, join_through: "students_classes"
 
     timestamps()
   end
