@@ -6,8 +6,8 @@
   "author": "Mariusz Morawski",
   "license": "ISC",
   "scripts": {
-    "predeploy": "npm ci && npm run graphql:local",
-    "deploy": "webpack --mode production",
+    "prebuild": "npm ci && npm run graphql:local",
+    "build": "webpack --mode production",
     "watch": "webpack --mode development --watch",
     "start": "npm run watch",
     "format": "prettier --write .",
