@@ -17,12 +17,25 @@ defmodule HungerGamesWeb.Schema do
 
   # Queries
 
-  import_types(HungerGamesWeb.Schema.StudentQueries)
-  import_types(HungerGamesWeb.Schema.SystemQueries)
+  import_types(Schema.ClassQueries)
+  import_types(Schema.LecturerQueries)
+  import_types(Schema.ScheduleQueries)
+  import_types(Schema.StudentQueries)
+  import_types(Schema.SystemQueries)
+
+  # Mutations
+  import_types(Schema.ScheduleMutations)
 
   query do
+    import_fields(:class_queries)
+    import_fields(:lecturer_queries)
+    import_fields(:schedule_queries)
     import_fields(:student_queries)
     import_fields(:system_queries)
+  end
+
+  mutation do
+    import_fields(:schedule_mutations_root)
   end
 
   def context(ctx) do

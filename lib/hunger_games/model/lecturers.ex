@@ -36,6 +36,7 @@ defmodule HungerGames.Lecturers do
 
   """
   def get_lecturer!(id), do: Repo.get!(Lecturer, id)
+  def get_lecturer(id), do: Repo.get(Lecturer, id)
 
   @doc """
   Creates a lecturer.

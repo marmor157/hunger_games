@@ -1,5 +1,7 @@
 defmodule HungerGamesWeb.Schema.StudentResolvers do
-  def get_student(_parent, _args, _ctx) do
-    {:ok, HungerGames.Students.get_student(1)}
+  alias HungerGames.Students
+
+  def get_student(_parent, %{id: id}, _ctx) do
+    {:ok, Students.get_student(id)}
   end
 end

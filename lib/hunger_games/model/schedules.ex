@@ -36,6 +36,7 @@ defmodule HungerGames.Schedules do
 
   """
   def get_schedule!(id), do: Repo.get!(Schedule, id)
+  def get_schedule(id), do: Repo.get(Schedule, id)
 
   @doc """
   Creates a schedule.

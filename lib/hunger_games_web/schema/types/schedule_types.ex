@@ -12,8 +12,7 @@ defmodule HungerGamesWeb.Schema.ScheduleTypes do
     end
   end
 
-  input_object :schedule_input do
+  input_object :create_schedule_input do
     field :name, non_null(:string)
-    field :classes, non_null(list_of(non_null(:class_input)))
   end
 end
