@@ -7,7 +7,8 @@ defmodule HungerGamesWeb.Schema.StudentQueries do
     @desc """
     Get student details
     """
-    field :user, non_null(:student) do
+    field :user, type: :student do
+      arg(:id, :id)
       resolve(&StudentResolvers.get_student/3)
     end
   end

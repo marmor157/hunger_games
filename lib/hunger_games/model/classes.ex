@@ -36,6 +36,7 @@ defmodule HungerGames.Classes do
 
   """
   def get_class!(id), do: Repo.get!(Class, id)
+  def get_class(id), do: Repo.get(Class, id)
 
   @doc """
   Creates a class.
