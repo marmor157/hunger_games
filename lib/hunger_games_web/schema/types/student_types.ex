@@ -16,7 +16,7 @@ defmodule HungerGamesWeb.Schema.StudentTypes do
     end
   end
 
-  input_object :student_input do
+  input_object :create_student_input do
     import_fields :base_student
   end
 end

@@ -15,7 +15,7 @@ defmodule HungerGamesWeb.Schema.LecturerTypes do
     end
   end
 
-  input_object :lecturer_input do
+  input_object :create_lecturer_input do
     import_fields :base_lecturer
   end
 end
