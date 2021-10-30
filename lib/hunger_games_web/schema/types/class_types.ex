@@ -29,7 +29,7 @@ defmodule HungerGamesWeb.Schema.ClassTypes do
     end
   end
 
-  input_object :class_input do
+  input_object :create_class_input do
     import_fields :base_class
 
     field :lecturer, non_null(:id)

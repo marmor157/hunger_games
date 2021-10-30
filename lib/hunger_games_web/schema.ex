@@ -24,7 +24,10 @@ defmodule HungerGamesWeb.Schema do
   import_types(Schema.SystemQueries)
 
   # Mutations
+  import_types(Schema.ClassMutations)
+  import_types(Schema.LecturerMutations)
   import_types(Schema.ScheduleMutations)
+  import_types(Schema.StudentMutations)
 
   query do
     import_fields(:class_queries)
@@ -35,7 +38,10 @@ defmodule HungerGamesWeb.Schema do
   end
 
   mutation do
+    import_fields(:class_mutations_root)
+    import_fields(:lecturer_mutations_root)
     import_fields(:schedule_mutations_root)
+    import_fields(:student_mutations_root)
   end
 
   def context(ctx) do
