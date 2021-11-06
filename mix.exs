@@ -52,7 +52,8 @@ defmodule HungerGames.MixProject do
       {:absinthe, "~> 1.6"},
       {:absinthe_plug, "~> 1.5"},
       {:telemetry, "~> 0.4.0", override: true},
-      {:dataloader, "~> 1.0"}
+      {:dataloader, "~> 1.0"},
+      {:ex_machina, "~> 2.7.0"}
     ]
   end
 

@@ -2,7 +2,12 @@ defmodule HungerGames.Classes.Class do
   use HungerGames.Schema
   import Ecto.Changeset
 
-  alias HungerGames.{Students.Student, Schedules.Schedule}
+  alias HungerGames.{
+    AssignedSchedules.AssignedSchedule,
+    ClassRequests.ClassRequest,
+    Requests.Request,
+    Schedules.Schedule
+  }
 
   @type t :: %__MODULE__{
           id: id(),
@@ -10,11 +15,13 @@ defmodule HungerGames.Classes.Class do
           rrule: String.t(),
           size_limit: Integer.t(),
           type: String.t(),
-          students: [Student.t()] | Ecto.Association.NotLoaded.t(),
-          schedule: Schedule.t() | Ecto.Association.NotLoaded.t()
+          schedule: Schedule.t() | Ecto.Association.NotLoaded.t(),
+          requests: [Request.t()] | Ecto.Association.NotLoaded.t(),
+          class_requests: [ClassRequest.t()] | Ecto.Association.NotLoaded.t(),
+          assigned_schedules: [AssignedSchedule.t()] | Ecto.Association.NotLoaded.t()
         }
 
-  @required_keys [:name, :rrule, :size_limit, :type]
+  @required_keys [:name, :rrule, :size_limit, :type, :schedule_id]
   @optional_keys []
 
   schema "classes" do
@@ -25,7 +32,9 @@ defmodule HungerGames.Classes.Class do
 
     belongs_to :schedule, Schedule
 
-    many_to_many :students, Student, join_through: "students_classes"
+    has_many :class_requests, ClassRequest
+    many_to_many :requests, Request, join_through: ClassRequest
+    many_to_many :assigned_schedules, AssignedSchedule, join_through: "assigned_schedule_classes"
 
     timestamps()
   end
