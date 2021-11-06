@@ -4,8 +4,8 @@ defmodule HungerGames.Repo.Migrations.CreateStudentsClasses do
   def change do
     create table(:students_classes, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :student_id, references(:students, type: :binary_id, null: false)
-      add :class_id, references(:classes, type: :binary_id, null: false)
+      add :student_id, references(:students, type: :binary_id), null: false
+      add :class_id, references(:classes, type: :binary_id), null: false
 
       timestamps(type: :utc_datetime_usec)
     end

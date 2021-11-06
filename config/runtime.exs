@@ -4,7 +4,8 @@ config :hunger_games, HungerGames.Repo,
   username: System.fetch_env!("POSTGRES_USER"),
   password: System.fetch_env!("POSTGRES_PASSWORD"),
   hostname: System.fetch_env!("POSTGRES_HOST"),
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  migration_timestamps: [type: :utc_datetime_usec]
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the

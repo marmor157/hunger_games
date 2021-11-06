@@ -6,9 +6,17 @@ defmodule HungerGames.SchedulesTest do
   describe "schedules" do
     alias HungerGames.Schedules.Schedule
 
-    import HungerGames.SchedulesFixtures
-
+    @valid_attrs %{name: "some name"}
     @invalid_attrs %{name: nil}
+
+    def schedule_fixture(attrs \\ %{}) do
+      {:ok, schedule} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> HungerGames.Schedules.create_schedule()
+
+      schedule
+    end
 
     test "list_schedules/0 returns all schedules" do
       schedule = schedule_fixture()

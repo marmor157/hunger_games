@@ -3,7 +3,7 @@ defmodule HungerGames.Repo.Migrations.AddScheduleIdToClasses do
 
   def change do
     alter table(:classes) do
-      add :schedule_id, references(:schedules, type: :binary_id, null: false)
+      add :schedule_id, references(:schedules, type: :binary_id), null: false
     end
 
     create index(:classes, [:schedule_id])

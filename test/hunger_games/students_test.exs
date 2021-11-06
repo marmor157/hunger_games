@@ -6,9 +6,17 @@ defmodule HungerGames.StudentsTest do
   describe "students" do
     alias HungerGames.Students.Student
 
-    import HungerGames.StudentsFixtures
-
+    @valid_attrs %{name: "some name"}
     @invalid_attrs %{name: nil}
+
+    def student_fixture(attrs \\ %{}) do
+      {:ok, student} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> HungerGames.Students.create_student()
+
+      student
+    end
 
     test "list_students/0 returns all students" do
       student = student_fixture()

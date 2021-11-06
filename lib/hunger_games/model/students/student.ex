@@ -2,12 +2,13 @@ defmodule HungerGames.Students.Student do
   use HungerGames.Schema
   import Ecto.Changeset
 
-  alias HungerGames.Classes.Class
+  alias HungerGames.{AssignedSchedules.AssignedSchedule, Requests.Request}
 
   @type t :: %__MODULE__{
           id: id(),
           name: String.t(),
-          classes: [Class.t()] | Ecto.Association.NotLoaded.t()
+          requests: [Request.t()] | Ecto.Association.NotLoaded.t(),
+          assigned_schedules: [AssignedSchedule.t()] | Ecto.Association.NotLoaded.t()
         }
 
   @required_keys [:name]
@@ -16,12 +17,12 @@ defmodule HungerGames.Students.Student do
   schema "students" do
     field :name, :string
 
-    many_to_many :classes, HungerGames.Classes.Class, join_through: "students_classes"
+    has_many :requests, Request
+    has_many :assigned_schedules, AssignedSchedule
 
     timestamps()
   end
 
-  @doc false
   def changeset(student, attrs) do
     student
     |> cast(attrs, @required_keys ++ @optional_keys)
