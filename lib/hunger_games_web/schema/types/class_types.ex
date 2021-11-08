@@ -23,8 +23,21 @@ defmodule HungerGamesWeb.Schema.ClassTypes do
 
     field :id, non_null(:id)
     field :lecturer, non_null(:lecturer)
+    field :schedule, non_null(:schedule)
 
     field :students, non_null(list_of(non_null(:student))) do
+      resolve(dataloader(:db))
+    end
+
+    field :requests, non_null(list_of(non_null(:request))) do
+      resolve(dataloader(:db))
+    end
+
+    field :class_requests, non_null(list_of(non_null(:class_request))) do
+      resolve(dataloader(:db))
+    end
+
+    field :assigned_schedules, non_null(list_of(non_null(:assigned_schedule))) do
       resolve(dataloader(:db))
     end
   end
@@ -32,6 +45,6 @@ defmodule HungerGamesWeb.Schema.ClassTypes do
   input_object :create_class_input do
     import_fields :base_class
 
-    field :lecturer, non_null(:id)
+    field :lecturer_id, non_null(:id)
   end
 end
