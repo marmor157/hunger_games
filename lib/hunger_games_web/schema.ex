@@ -9,8 +9,11 @@ defmodule HungerGamesWeb.Schema do
   # Types
   import_types(Absinthe.Type.Custom)
 
+  import_types(Schema.AssignedScheduleTypes)
   import_types(Schema.ClassTypes)
+  import_types(Schema.ClassRequestTypes)
   import_types(Schema.LecturerTypes)
+  import_types(Schema.RequestTypes)
   import_types(Schema.ScheduleTypes)
   import_types(Schema.StudentTypes)
   import_types(Schema.SystemTypes)

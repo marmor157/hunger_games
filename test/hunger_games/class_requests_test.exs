@@ -14,7 +14,8 @@ defmodule HungerGames.ClassRequestsTest do
     setup do
       student = insert(:student)
       schedule = insert(:schedule)
-      class = insert(:class, schedule: schedule)
+      lecturer = insert(:lecturer)
+      class = insert(:class, schedule: schedule, lecturer: lecturer)
       request = insert(:request, student: student, schedule: schedule)
 
       [

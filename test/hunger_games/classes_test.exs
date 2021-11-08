@@ -18,8 +18,9 @@ defmodule HungerGames.ClassesTest do
 
     setup do
       schedule = insert(:schedule)
+      lecturer = insert(:lecturer)
 
-      [schedule_id: schedule.id, schedule: schedule]
+      [schedule_id: schedule.id, schedule: schedule, lecturer: lecturer, lecturer_id: lecturer.id]
     end
 
     def class_fixture(attrs \\ %{}) do

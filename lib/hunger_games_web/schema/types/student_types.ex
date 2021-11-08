@@ -11,7 +11,11 @@ defmodule HungerGamesWeb.Schema.StudentTypes do
     import_fields :base_student
     field :id, non_null(:id)
 
-    field :classes, non_null(list_of(non_null(:class))) do
+    field :requests, non_null(list_of(non_null(:request))) do
+      resolve(dataloader(:db))
+    end
+
+    field :assigned_schedules, non_null(list_of(non_null(:assigned_schedule))) do
       resolve(dataloader(:db))
     end
   end
