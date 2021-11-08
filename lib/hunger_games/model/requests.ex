@@ -3,10 +3,11 @@ defmodule HungerGames.Requests do
   The Requests context.
   """
 
+  import HungerGames.Model.Helpers
   import Ecto.Query, warn: false
-  alias HungerGames.Repo
 
-  alias HungerGames.Requests.Request
+  alias Ecto.Multi
+  alias HungerGames.{ClassRequests.ClassRequest, Repo, Requests.Request}
 
   @doc """
   Returns the list of requests.
@@ -36,6 +37,7 @@ defmodule HungerGames.Requests do
 
   """
   def get_request!(id), do: Repo.get!(Request, id)
+  def get_request(id), do: Repo.get(Request, id)
 
   @doc """
   Creates a request.
@@ -49,7 +51,26 @@ defmodule HungerGames.Requests do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_request(attrs \\ %{}) do
+
+  def create_request(attrs \\ %{})
+
+  def create_request(%{classes: classes} = attrs) when not is_nil(classes) do
+    Multi.new()
+    |> Multi.insert(:insert_request, Request.changeset(%Request{}, attrs))
+    |> Multi.insert_all(:insert_all, ClassRequest, fn %{insert_request: request} ->
+      classes
+      |> Enum.map(fn class ->
+        class
+        |> Map.put(:request_id, request.id)
+        |> Map.put(:inserted_at, DateTime.utc_now())
+        |> Map.put(:updated_at, DateTime.utc_now())
+      end)
+    end)
+    |> Repo.transaction()
+    |> unpack_transaction(:insert_request)
+  end
+
+  def create_request(attrs) do
     %Request{}
     |> Request.changeset(attrs)
     |> Repo.insert()
