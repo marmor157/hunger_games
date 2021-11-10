@@ -37,7 +37,6 @@ defmodule HungerGames.RequestsTest do
       assert Requests.get_request!(request.id) == request
     end
 
-    @tag :work
     test "create_request/1 with valid data and list of classes create a request and class_requests",
          ctx do
       lecturer = insert(:lecturer)

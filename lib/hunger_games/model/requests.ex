@@ -54,7 +54,7 @@ defmodule HungerGames.Requests do
 
   def create_request(attrs \\ %{})
 
-  def create_request(%{classes: classes} = attrs) when not is_nil(classes) do
+  def create_request(%{classes: classes} = attrs) when is_list(classes) do
     Multi.new()
     |> Multi.insert(:insert_request, Request.changeset(%Request{}, attrs))
     |> Multi.insert_all(:insert_all, ClassRequest, fn %{insert_request: request} ->
