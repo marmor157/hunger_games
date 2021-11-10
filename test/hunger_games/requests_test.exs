@@ -37,6 +37,37 @@ defmodule HungerGames.RequestsTest do
       assert Requests.get_request!(request.id) == request
     end
 
+    test "create_request/1 with valid data and list of classes create a request and class_requests",
+         ctx do
+      lecturer = insert(:lecturer)
+      %{id: class1_id} = class1 = insert(:class, schedule: ctx.schedule, lecturer: lecturer)
+      %{id: class2_id} = class2 = insert(:class, schedule: ctx.schedule, lecturer: lecturer)
+
+      assert {:ok, %Request{id: request_id} = request} =
+               @valid_attrs
+               |> Map.merge(ctx)
+               |> Map.put(:classes, [
+                 %{priority: 1, class_id: class1.id},
+                 %{priority: 2, class_id: class2.id}
+               ])
+               |> Requests.create_request()
+
+      request_classes = request |> Repo.preload(:class_requests) |> Map.get(:class_requests)
+
+      assert [
+               %{
+                 priority: 1,
+                 class_id: ^class1_id,
+                 request_id: ^request_id
+               },
+               %{
+                 priority: 2,
+                 class_id: ^class2_id,
+                 request_id: ^request_id
+               }
+             ] = request_classes
+    end
+
     test "create_request/1 with valid data creates a request", ctx do
       assert {:ok, %Request{} = request} = Requests.create_request(Map.merge(@valid_attrs, ctx))
       assert request.date == @valid_attrs.date

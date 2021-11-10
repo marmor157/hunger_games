@@ -29,6 +29,7 @@ defmodule HungerGamesWeb.Schema do
   # Mutations
   import_types(Schema.ClassMutations)
   import_types(Schema.LecturerMutations)
+  import_types(Schema.RequestMutations)
   import_types(Schema.ScheduleMutations)
   import_types(Schema.StudentMutations)
 
@@ -43,6 +44,7 @@ defmodule HungerGamesWeb.Schema do
   mutation do
     import_fields(:class_mutations_root)
     import_fields(:lecturer_mutations_root)
+    import_fields(:request_mutations_root)
     import_fields(:schedule_mutations_root)
     import_fields(:student_mutations_root)
   end

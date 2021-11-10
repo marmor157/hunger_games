@@ -46,5 +46,6 @@ defmodule HungerGamesWeb.Schema.ClassTypes do
     import_fields :base_class
 
     field :lecturer_id, non_null(:id)
+    field :schedule_id, non_null(:id)
   end
 end

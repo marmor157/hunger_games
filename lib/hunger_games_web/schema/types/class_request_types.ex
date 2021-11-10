@@ -16,7 +16,6 @@ defmodule HungerGamesWeb.Schema.ClassRequestTypes do
   input_object :class_request_input do
     import_fields :base_class
 
-    field :request_id, non_null(:id)
     field :class_id, non_null(:id)
   end
 end
