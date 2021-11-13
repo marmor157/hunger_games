@@ -61,14 +61,14 @@ defmodule HungerGames.ClassesTest do
         name: "some updated name",
         rrule: "some updated rrule",
         size_limit: 43,
-        type: "some updated type"
+        type: :exercises
       }
 
       assert {:ok, %Class{} = class} = Classes.update_class(class, update_attrs)
       assert class.name == "some updated name"
       assert class.rrule == "some updated rrule"
       assert class.size_limit == 43
-      assert class.type == "some updated type"
+      assert class.type == :exercises
     end
 
     test "update_class/2 with invalid data returns error changeset", ctx do

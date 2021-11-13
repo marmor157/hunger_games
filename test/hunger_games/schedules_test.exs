@@ -35,7 +35,7 @@ defmodule HungerGames.SchedulesTest do
       assert schedule.registration_end_date == ~U[2021-10-31 15:10:00.000000Z]
 
       assert_enqueued(
-        worker: HungerGames.ScheduleRequestResolver,
+        worker: HungerGames.AssignScheduleWorker,
         args: %{id: schedule.id},
         scheduled_at: {schedule.registration_end_date, delta: 0}
       )
