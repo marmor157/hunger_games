@@ -12,7 +12,7 @@ defmodule HungerGames.ClassesTest do
       name: "some name",
       rrule: "RRULE:FREQ=DAILY;INTERVAL=1",
       size_limit: 42,
-      type: "some type"
+      type: :lecture
     }
     @invalid_attrs %{name: nil, rrule: nil, size_limit: nil, type: nil}
 

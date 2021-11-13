@@ -6,6 +6,12 @@ defmodule HungerGamesWeb.Schema.RequestResolvers do
   end
 
   def create_request(_parent, %{input: input}, _ctx) do
-    Requests.create_request(input)
+    input
+    |> Map.put(
+      :date,
+      DateTime.now("Etc/UTC")
+      |> elem(1)
+    )
+    |> Requests.create_request()
   end
 end

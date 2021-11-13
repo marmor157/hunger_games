@@ -3,9 +3,14 @@ defmodule HungerGamesWeb.Schema.ScheduleTypes do
 
   import Absinthe.Resolution.Helpers
 
-  object :schedule do
-    field :id, non_null(:id)
+  object :schedule_base do
     field :name, non_null(:string)
+    field :registration_end_date, non_null(:datetime)
+  end
+
+  object :schedule do
+    import_fields(:schedule_base)
+    field :id, non_null(:id)
 
     field :classes, non_null(list_of(non_null(:class))) do
       resolve(dataloader(:db))
@@ -21,6 +26,6 @@ defmodule HungerGamesWeb.Schema.ScheduleTypes do
   end
 
   input_object :create_schedule_input do
-    field :name, non_null(:string)
+    import_fields(:schedule_base)
   end
 end

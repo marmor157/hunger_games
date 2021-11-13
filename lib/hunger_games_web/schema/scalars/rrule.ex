@@ -14,7 +14,10 @@ defmodule HungerGamesWeb.Schema.RRuleTypes do
   end
 
   defp parse_rrule(%Absinthe.Blueprint.Input.String{value: value}) do
-    if String.match?(value, ~r/^[[:alnum:]:;=]*$/), do: value, else: :error
+    case Cocktail.Parser.ICalendar.parse(value) do
+      {:ok, _} -> {:ok, value}
+      {:error, _} -> :error
+    end
   end
 
   defp parse_rrule(%Absinthe.Blueprint.Input.Null{}), do: {:ok, nil}
