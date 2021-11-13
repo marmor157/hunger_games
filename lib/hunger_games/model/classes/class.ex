@@ -10,12 +10,14 @@ defmodule HungerGames.Classes.Class do
     Schedules.Schedule
   }
 
+  @type types :: :lecture | :exercises | :laboratories | :computer_laboratories | :project
+
   @type t :: %__MODULE__{
           id: id(),
           name: String.t(),
           rrule: String.t(),
           size_limit: Integer.t(),
-          type: String.t(),
+          type: types(),
           lecturer: Lecturer.t() | Ecto.Association.NotLoaded.t(),
           schedule: Schedule.t() | Ecto.Association.NotLoaded.t(),
           requests: [Request.t()] | Ecto.Association.NotLoaded.t(),
@@ -25,12 +27,13 @@ defmodule HungerGames.Classes.Class do
 
   @required_keys [:name, :rrule, :size_limit, :type, :schedule_id, :lecturer_id]
   @optional_keys []
+  @types [:lecture, :exercises, :laboratories, :computer_laboratories, :project]
 
   schema "classes" do
     field :name, :string
     field :rrule, :string
     field :size_limit, :integer
-    field :type, :string
+    field(:type, Ecto.Enum, values: @types)
 
     belongs_to :schedule, Schedule
     belongs_to :lecturer, Lecturer
@@ -48,4 +51,7 @@ defmodule HungerGames.Classes.Class do
     |> cast(attrs, @required_keys ++ @optional_keys)
     |> validate_required(@required_keys)
   end
+
+  @spec types() :: [types()]
+  def types, do: @types
 end

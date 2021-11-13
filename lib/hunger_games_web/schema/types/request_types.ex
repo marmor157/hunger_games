@@ -7,8 +7,13 @@ defmodule HungerGamesWeb.Schema.RequestTypes do
     field :id, non_null(:id)
     field :date, non_null(:date)
 
-    field :student, non_null(:student)
-    field :schedule, non_null(:schedule)
+    field :student, non_null(:student) do
+      resolve(dataloader(:db))
+    end
+
+    field :schedule, non_null(:schedule) do
+      resolve(dataloader(:db))
+    end
 
     field :classes, non_null(list_of(non_null(:class))) do
       resolve(dataloader(:db))
