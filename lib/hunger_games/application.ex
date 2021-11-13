@@ -15,9 +15,10 @@ defmodule HungerGames.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: HungerGames.PubSub},
       # Start the Endpoint (http/https)
-      HungerGamesWeb.Endpoint
+      HungerGamesWeb.Endpoint,
       # Start a worker by calling: HungerGames.Worker.start_link(arg)
       # {HungerGames.Worker, arg}
+      {Oban, oban_config()}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -41,5 +42,9 @@ defmodule HungerGames.Application do
   def config_change(changed, _new, removed) do
     HungerGamesWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp oban_config do
+    Application.fetch_env!(:hunger_games, Oban)
   end
 end

@@ -20,6 +20,7 @@ defmodule HungerGamesWeb.Schema do
 
   # Queries
 
+  import_types(Schema.AssignedScheduleQueries)
   import_types(Schema.ClassQueries)
   import_types(Schema.LecturerQueries)
   import_types(Schema.ScheduleQueries)
@@ -34,6 +35,7 @@ defmodule HungerGamesWeb.Schema do
   import_types(Schema.StudentMutations)
 
   query do
+    import_fields(:assigned_schedule_queries)
     import_fields(:class_queries)
     import_fields(:lecturer_queries)
     import_fields(:schedule_queries)

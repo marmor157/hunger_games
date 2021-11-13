@@ -39,6 +39,8 @@ hunger_games-\*.tar
 npm-debug.log
 node_modules/
 
+.vscode/
+
 .DS_Store
 
 assets/src/graphql/index.ts

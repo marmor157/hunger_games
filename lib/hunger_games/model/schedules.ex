@@ -4,8 +4,10 @@ defmodule HungerGames.Schedules do
   """
 
   import Ecto.Query, warn: false
-  alias HungerGames.Repo
+  import HungerGames.Model.Helpers
 
+  alias Ecto.Multi
+  alias HungerGames.Repo
   alias HungerGames.Schedules.Schedule
 
   @doc """
@@ -51,9 +53,13 @@ defmodule HungerGames.Schedules do
 
   """
   def create_schedule(attrs \\ %{}) do
-    %Schedule{}
-    |> Schedule.changeset(attrs)
-    |> Repo.insert()
+    Multi.new()
+    |> Multi.insert(:insert_schedule, Schedule.changeset(%Schedule{}, attrs))
+    |> Multi.run(:insert_oban_job, fn _repo, %{insert_schedule: schedule} ->
+      HungerGames.AssignScheduleWorker.enqueue_schedule(schedule)
+    end)
+    |> Repo.transaction()
+    |> unpack_transaction(:insert_schedule)
   end
 
   @doc """

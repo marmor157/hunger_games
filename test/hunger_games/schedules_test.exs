@@ -1,12 +1,13 @@
 defmodule HungerGames.SchedulesTest do
   use HungerGames.DataCase
+  use Oban.Testing, repo: HungerGames.Repo
 
   alias HungerGames.Schedules
 
   describe "schedules" do
     alias HungerGames.Schedules.Schedule
 
-    @valid_attrs %{name: "some name"}
+    @valid_attrs %{name: "some name", registration_end_date: ~U[2021-10-31 15:10:00.000000Z]}
     @invalid_attrs %{name: nil}
 
     def schedule_fixture(attrs \\ %{}) do
@@ -29,10 +30,15 @@ defmodule HungerGames.SchedulesTest do
     end
 
     test "create_schedule/1 with valid data creates a schedule" do
-      valid_attrs = %{name: "some name"}
-
-      assert {:ok, %Schedule{} = schedule} = Schedules.create_schedule(valid_attrs)
+      assert {:ok, %Schedule{} = schedule} = Schedules.create_schedule(@valid_attrs)
       assert schedule.name == "some name"
+      assert schedule.registration_end_date == ~U[2021-10-31 15:10:00.000000Z]
+
+      assert_enqueued(
+        worker: HungerGames.ScheduleRequestResolver,
+        args: %{id: schedule.id},
+        scheduled_at: {schedule.registration_end_date, delta: 0}
+      )
     end
 
     test "create_schedule/1 with invalid data returns error changeset" do

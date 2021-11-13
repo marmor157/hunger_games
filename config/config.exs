@@ -23,6 +23,12 @@ config :hunger_games, HungerGamesWeb.Endpoint,
   pubsub_server: HungerGames.PubSub,
   live_view: [signing_salt: "4AVXxIwQ"]
 
+# config/config.exs
+config :hunger_games, Oban,
+  repo: HungerGames.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [schedules: 10]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
