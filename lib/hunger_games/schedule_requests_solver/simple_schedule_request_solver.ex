@@ -17,6 +17,7 @@ defmodule HungerGames.SimpleScheduleRequestSolver do
   def solve_schedule(%Schedule{classes: classes, requests: requests}) do
     classes =
       classes
+      |> Enum.map(&Map.from_struct(&1))
       |> Enum.map(&struct(Class, &1))
       |> group_by_name_and_type()
 
@@ -27,7 +28,6 @@ defmodule HungerGames.SimpleScheduleRequestSolver do
 
     %{requests: requests, classes: classes}
     |> resolve_requests()
-    |> Map.get(:classes)
     |> Map.values()
     |> List.flatten()
   end
@@ -63,11 +63,13 @@ defmodule HungerGames.SimpleScheduleRequestSolver do
   end
 
   # Takes classes and request and returns classes with student_ids added
-  defp resolve_requests(%{requests: requests} = args) when length(requests) == 0, do: args
+  defp resolve_requests(%{requests: requests, classes: classes})
+       when length(requests) == 0,
+       do: classes
 
   defp resolve_requests(%{requests: requests, classes: classes}) do
     requests
-    |> Enum.reduce(classes, fn request, %{classes: classes} ->
+    |> Enum.reduce(classes, fn request, classes ->
       resolve_request(%{classes: classes, request: request})
     end)
   end
