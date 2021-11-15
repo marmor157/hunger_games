@@ -60,7 +60,7 @@ defmodule HungerGames.AssignedSchedules do
       :insert_assigned_schedule,
       AssignedSchedule.changeset(%AssignedSchedule{}, attrs)
     )
-    |> Multi.insert_all(:insert_all, "assigned_schedule_classes", fn changes ->
+    |> Multi.insert_all(:insert_all, :assigned_schedule_classes, fn changes ->
       %{
         insert_assigned_schedule: assigned_schedule
       } = changes

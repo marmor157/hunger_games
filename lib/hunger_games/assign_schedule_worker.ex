@@ -14,6 +14,8 @@ defmodule HungerGames.AssignScheduleWorker do
     Repo
   }
 
+  @spec enqueue_schedule(HungerGames.Schedules.Schedule.t()) ::
+          {:error, any} | {:ok, Oban.Job.t()}
   def enqueue_schedule(%Schedule{id: id, registration_end_date: date}) do
     %{id: id}
     |> HungerGames.AssignScheduleWorker.new(scheduled_at: date)
