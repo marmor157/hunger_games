@@ -7,16 +7,18 @@ defmodule HungerGames.Schedules.Schedule do
   @type t :: %__MODULE__{
           id: id(),
           name: String.t(),
+          registration_end_date: DateTime.t(),
           classes: [Class.t()] | Ecto.Association.NotLoaded.t(),
           requests: [Request.t()] | Ecto.Association.NotLoaded.t(),
           assigned_schedules: [AssignedSchedule.t()] | Ecto.Association.NotLoaded.t()
         }
 
-  @required_keys [:name]
+  @required_keys [:name, :registration_end_date]
   @optional_keys []
 
   schema "schedules" do
     field :name, :string
+    field :registration_end_date, :utc_datetime_usec
 
     has_many :classes, Class
     has_many :assigned_schedules, AssignedSchedule

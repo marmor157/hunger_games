@@ -23,3 +23,5 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :hunger_games, Oban, queues: false, plugins: false

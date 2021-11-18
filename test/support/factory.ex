@@ -41,7 +41,7 @@ defmodule HungerGames.Factory do
       name: sequence("name"),
       rrule: "RRULE:FREQ=DAILY;INTERVAL=1",
       size_limit: Enum.random(1..25),
-      type: sequence("type")
+      type: :exercises
     }
 
     merge_attributes(class, attrs)

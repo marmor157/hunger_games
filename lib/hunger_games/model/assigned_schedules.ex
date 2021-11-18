@@ -3,9 +3,11 @@ defmodule HungerGames.AssignedSchedules do
   The AssignedSchedules context.
   """
 
+  import HungerGames.Model.Helpers
   import Ecto.Query, warn: false
-  alias HungerGames.Repo
 
+  alias Ecto.Multi
+  alias HungerGames.Repo
   alias HungerGames.AssignedSchedules.AssignedSchedule
 
   @doc """
@@ -36,6 +38,7 @@ defmodule HungerGames.AssignedSchedules do
 
   """
   def get_assigned_schedule!(id), do: Repo.get!(AssignedSchedule, id)
+  def get_assigned_schedule(id), do: Repo.get(AssignedSchedule, id)
 
   @doc """
   Creates a assigned_schedule.
@@ -49,7 +52,35 @@ defmodule HungerGames.AssignedSchedules do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_assigned_schedule(attrs \\ %{}) do
+  def create_assigned_schedule(attrs \\ %{})
+
+  def create_assigned_schedule(%{classes: classes} = attrs) when is_list(classes) do
+    Multi.new()
+    |> Multi.insert(
+      :insert_assigned_schedule,
+      AssignedSchedule.changeset(%AssignedSchedule{}, attrs)
+    )
+    |> Multi.insert_all(:insert_all, "assigned_schedule_classes", fn changes ->
+      %{
+        insert_assigned_schedule: assigned_schedule
+      } = changes
+
+      classes
+      |> Enum.map(fn class ->
+        %{
+          id: Ecto.UUID.bingenerate(),
+          class_id: class.id |> Ecto.UUID.dump() |> elem(1),
+          assigned_schedule_id: assigned_schedule.id |> Ecto.UUID.dump() |> elem(1),
+          inserted_at: DateTime.utc_now(),
+          updated_at: DateTime.utc_now()
+        }
+      end)
+    end)
+    |> Repo.transaction()
+    |> unpack_transaction(:insert_assigned_schedule)
+  end
+
+  def create_assigned_schedule(attrs) do
     %AssignedSchedule{}
     |> AssignedSchedule.changeset(attrs)
     |> Repo.insert()
