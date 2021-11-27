@@ -20,6 +20,10 @@ async function runGenerator(config) {
             "typescript-operations",
             "typescript-react-apollo",
           ],
+          scalars: {
+            DateTime: "string",
+            Date: "string",
+          },
         },
       },
       hooks: {

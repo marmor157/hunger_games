@@ -1,0 +1,29 @@
+query getSchedule($id: ID!) {
+  schedule(id: $id) {
+    id
+    name
+    registrationStartDate
+    registrationEndDate
+    startDate
+    endDate
+    classes {
+      id
+      name
+      rrule
+      type
+      lecturer {
+        name
+      }
+      schedule {
+        name
+      }
+      sizeLimit
+    }
+    assignedSchedules {
+      id
+    }
+    requests {
+      id
+    }
+  }
+}

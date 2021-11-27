@@ -11,5 +11,10 @@ defmodule HungerGamesWeb.Schema.ClassMutations do
       arg(:input, :create_class_input)
       resolve(&ClassResolvers.create_class/3)
     end
+
+    field :class_delete, non_null(:class) do
+      arg(:id, :id)
+      resolve(&ClassResolvers.delete_class/3)
+    end
   end
 end

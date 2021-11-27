@@ -6,6 +6,9 @@ defmodule HungerGamesWeb.Schema.ScheduleTypes do
   object :schedule_base do
     field :name, non_null(:string)
     field :registration_end_date, non_null(:datetime)
+    field :registration_start_date, non_null(:datetime)
+    field :start_date, non_null(:date)
+    field :end_date, non_null(:date)
   end
 
   object :schedule do
