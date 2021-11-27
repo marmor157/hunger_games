@@ -11,5 +11,9 @@ defmodule HungerGamesWeb.Schema.LecturerQueries do
       arg(:id, :id)
       resolve(&LecturerResolvers.get_lecturer/3)
     end
+
+    field :list_lecturers, type: non_null(list_of(non_null(:lecturer))) do
+      resolve(&LecturerResolvers.list_lecturers/3)
+    end
   end
 end

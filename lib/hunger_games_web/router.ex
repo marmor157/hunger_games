@@ -31,12 +31,6 @@ defmodule HungerGamesWeb.Router do
     forward "/", Absinthe.Plug
   end
 
-  scope "/", HungerGamesWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", HungerGamesWeb do
   #   pipe_through :api
@@ -68,5 +62,11 @@ defmodule HungerGamesWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  scope "/", HungerGamesWeb do
+    pipe_through :browser
+
+    get "/*path", PageController, :index
   end
 end

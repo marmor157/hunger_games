@@ -1,0 +1,21 @@
+mutation classCreate($input: CreateClassInput!) {
+  classCreate(input: $input) {
+    id
+    name
+    rrule
+    type
+    lecturer {
+      name
+    }
+    schedule {
+      name
+    }
+    sizeLimit
+  }
+}
+
+mutation classDelete($id: ID!) {
+  classDelete(id: $id) {
+    id
+  }
+}

@@ -1,0 +1,6 @@
+query listLecturers {
+  listLecturers {
+    id
+    name
+  }
+}

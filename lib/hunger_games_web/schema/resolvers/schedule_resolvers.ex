@@ -6,6 +6,12 @@ defmodule HungerGamesWeb.Schema.ScheduleResolvers do
   end
 
   def create_schedule(_parent, %{input: input}, _ctx) do
-    Schedules.create_schedule(input)
+    with true <- Date.diff(input.registration_end_date, Date.utc_today()) > 0,
+         {:ok, schedule} <- Schedules.create_schedule(input) do
+      {:ok, schedule}
+    else
+      false -> {:error, "Date must be greater than now"}
+      error -> error
+    end
   end
 end
