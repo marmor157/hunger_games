@@ -1,26 +1,18 @@
 import * as yup from "yup";
 
 import {
-  Button,
-  HStack,
-  NumberInput,
-  NumberInputField,
-  Text,
-} from "@chakra-ui/react";
-import {
   ClassType,
   CreateClassInput,
   useListLecturersQuery,
 } from "../../graphql";
-import React, { useEffect } from "react";
-import { defaultRRule, parseRRule } from "../../utils/rrule";
 
+import { Button } from "@chakra-ui/react";
 import FormControlInput from "../../components/FormControlInput";
 import FormControlNumberInput from "../../components/FormControlNumberInput";
 import FormControlSelect from "../../components/FormControlSelect";
-import RRule from "rrule";
+import RRuleInput from "./RRuleInput";
+import React from "react";
 import { VStack } from "@chakra-ui/layout";
-import { default as customUseForm } from "../../utils/useForm";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -44,14 +36,8 @@ const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
     defaultValues: classDefault,
     resolver: yupResolver(schema),
   });
-  const [values, internalHandleChange] = customUseForm(
-    classDefault.rrule ? parseRRule(classDefault.rrule) : defaultRRule()
-  );
-  const { data } = useListLecturersQuery();
 
-  useEffect(() => {
-    setValue("rrule", new RRule(values).toString());
-  }, [setValue, values]);
+  const { data } = useListLecturersQuery();
 
   return (
     <form onSubmit={handleSubmit(onSave)}>
@@ -79,27 +65,11 @@ const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
           label="Type"
           options={Object.values(ClassType).map((a) => ({ id: a, name: a }))}
         />
-        <HStack>
-          <HStack>
-            <Text>Co</Text>
-            <NumberInput
-              name="interval"
-              value={values.interval}
-              onChange={(_, value) => {
-                internalHandleChange(isNaN(value) ? 1 : value, "interval");
-              }}
-              width="4em"
-            >
-              <NumberInputField />
-            </NumberInput>
-            <Text>Tydzień</Text>
-          </HStack>
-        </HStack>
-        <FormControlInput
-          control={control}
-          name="rrule"
-          label="RRule"
-          placeholder="RRule"
+
+        <RRuleInput
+          onChange={(rrule) => {
+            setValue("rrule", rrule);
+          }}
         />
         <Button alignSelf="flex-end" type="submit">
           Add class

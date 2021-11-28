@@ -10,6 +10,7 @@ import { Box } from "@chakra-ui/layout";
 import RRule from "rrule";
 import React from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import extractDtendFromRRule from "../../utils/extractDtendFromRRule";
 import pl from "@fullcalendar/core/locales/pl";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
@@ -24,9 +25,15 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ classes, startDate, endDate }) => {
+  console.log(classes);
   const events: EventSourceInput = classes.flatMap(
     ({ rrule, name, lecturer }) => {
-      const occurrences = RRule.fromString(rrule).between(startDate, endDate);
+      const { rrule: sanitizedRRule, dtend } = extractDtendFromRRule(rrule);
+      const occurrences = RRule.fromString(sanitizedRRule).between(
+        startDate,
+        endDate
+      );
+
       const shortName = name
         .split(" ")
         .map((word) => word[0])
@@ -36,6 +43,7 @@ const Calendar: React.FC<CalendarProps> = ({ classes, startDate, endDate }) => {
         (occurrence): EventInput => ({
           title: `${shortName} - ${lecturer.name}`,
           start: occurrence,
+          end: dtend,
         })
       );
     }

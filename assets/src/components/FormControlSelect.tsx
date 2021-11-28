@@ -9,7 +9,7 @@ import { Select, SelectProps } from "@chakra-ui/react";
 
 interface FormControlSelectProps<
   T extends FieldValues,
-  K extends { id: string; name: string }
+  K extends { id: string | number; name: string }
 > extends SelectProps {
   control: Control<T>;
   name: Path<T>;
@@ -19,7 +19,7 @@ interface FormControlSelectProps<
 
 const FormControlSelect = <
   T extends FieldValues,
-  K extends { id: string; name: string }
+  K extends { id: string | number; name: string }
 >({
   control,
   name,
