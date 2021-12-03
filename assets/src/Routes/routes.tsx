@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 
 import { RouteObject } from "react-router";
+import ScheduleRequest from "../pages/ScheduleRequest";
 import paths from "./paths";
 
 const WelcomeScreen = lazy(() => import("../pages/WelcomeScreen"));
@@ -12,6 +13,7 @@ const routes: RouteObject[] = [
   { path: paths.root, element: <WelcomeScreen /> },
   { path: paths.schedule.new, element: <NewSchedule /> },
   { path: paths.schedule.edit(":id"), element: <EditSchedule /> },
+  { path: paths.schedule.request(":id"), element: <ScheduleRequest /> },
 ];
 
 export default routes;

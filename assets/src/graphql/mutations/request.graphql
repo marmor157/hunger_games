@@ -1,0 +1,12 @@
+mutation createRequest($input: CreateRequestInput!) {
+  requestCreate(input: $input) {
+    id
+    date
+    schedule {
+      id
+    }
+    student {
+      id
+    }
+  }
+}

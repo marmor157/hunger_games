@@ -1,4 +1,4 @@
-export type PathFunction = (id: string) => string;
+export type PathFunction = (...args: string[]) => string;
 export type Path = string | PathFunction;
 interface Paths {
   [prop: string]: Path | Record<string, Paths | Path>;
@@ -10,6 +10,11 @@ const pathsDict = {
     new: "/new",
     details: (id: string) => `/${id}`,
     edit: (id: string) => `/${id}/edit`,
+    request: (id: string) => `/${id}/request`,
+  },
+  assignedSchedule: {
+    details: (scheduleId: string, studentId: string) =>
+      `/${scheduleId}/${studentId}/details`,
   },
 };
 
@@ -18,7 +23,7 @@ function applyRoutes(routes: Paths, basePath: string = ""): Paths {
     if (typeof value === "string") return [key, `${basePath}${value}`];
 
     if (typeof value === "function")
-      return [key, (id: string) => `${basePath}${value(id)}`];
+      return [key, (...args: string[]) => `${basePath}${value(...args)}`];
 
     if (typeof value === "object")
       return [key, applyRoutes(value, `${basePath}/${key}`)];
