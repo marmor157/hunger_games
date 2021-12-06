@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 
+import AssignedSchedule from "../pages/AssignedSchedule";
 import { RouteObject } from "react-router";
 import ScheduleRequest from "../pages/ScheduleRequest";
 import paths from "./paths";
@@ -14,6 +15,10 @@ const routes: RouteObject[] = [
   { path: paths.schedule.new, element: <NewSchedule /> },
   { path: paths.schedule.edit(":id"), element: <EditSchedule /> },
   { path: paths.schedule.request(":id"), element: <ScheduleRequest /> },
+  {
+    path: paths.assignedSchedule.details(":scheduleId", ":studentId"),
+    element: <AssignedSchedule />,
+  },
 ];
 
 export default routes;

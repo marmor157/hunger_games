@@ -1,6 +1,6 @@
 import "./Calendar.scss";
 
-import { Class, Lecturer } from "../../graphql";
+import { Class, ClassType, Lecturer } from "../../graphql";
 import FullCalendar, {
   EventInput,
   EventSourceInput,
@@ -14,7 +14,7 @@ import extractDtendFromRRule from "../../utils/extractDtendFromRRule";
 import pl from "@fullcalendar/core/locales/pl";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
-interface InternalClass extends Pick<Class, "name" | "rrule"> {
+interface InternalClass extends Pick<Class, "name" | "rrule" | "type"> {
   lecturer: Pick<Lecturer, "name">;
 }
 
@@ -24,16 +24,22 @@ interface CalendarProps {
   endDate: Date;
 }
 
+const classTypeToShortcut: Record<ClassType, string> = {
+  [ClassType.ComputerLaboratories]: "LK",
+  [ClassType.Exercises]: "Ć",
+  [ClassType.Laboratories]: "L",
+  [ClassType.Lecture]: "W",
+  [ClassType.Project]: "P",
+};
+
 const Calendar: React.FC<CalendarProps> = ({ classes, startDate, endDate }) => {
-  console.log(classes);
   const events: EventSourceInput = classes.flatMap(
-    ({ rrule, name, lecturer }) => {
+    ({ rrule, name, lecturer, type }) => {
       const { rrule: sanitizedRRule, dtend } = extractDtendFromRRule(rrule);
       const occurrences = RRule.fromString(sanitizedRRule).between(
         startDate,
         endDate
       );
-
       const shortName = name
         .split(" ")
         .map((word) => word[0])
@@ -41,7 +47,7 @@ const Calendar: React.FC<CalendarProps> = ({ classes, startDate, endDate }) => {
 
       return occurrences.map(
         (occurrence): EventInput => ({
-          title: `${shortName} - ${lecturer.name}`,
+          title: `${shortName} - ${lecturer.name} ${classTypeToShortcut[type]}`,
           start: occurrence,
           end: dtend,
         })

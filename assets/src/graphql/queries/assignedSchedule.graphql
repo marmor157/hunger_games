@@ -1,0 +1,27 @@
+query getAssignedScheduleByStudentSchedule($studentId: ID!, $scheduleId: ID!) {
+  assignedScheduleByStudentSchedule(
+    studentId: $studentId
+    scheduleId: $scheduleId
+  ) {
+    id
+    classes {
+      id
+      name
+      rrule
+      type
+      lecturer {
+        name
+      }
+      schedule {
+        name
+      }
+      sizeLimit
+    }
+    schedule {
+      id
+      name
+      startDate
+      endDate
+    }
+  }
+}
