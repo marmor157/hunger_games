@@ -1,9 +1,25 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+
+import { AUTH_TOKEN } from "../consts";
+import { setContext } from "@apollo/client/link/context";
 
 const API_URL = "/api/v1";
 
+const httpLink = createHttpLink({ uri: API_URL });
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(AUTH_TOKEN);
+
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
 const client = new ApolloClient({
-  uri: API_URL,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
