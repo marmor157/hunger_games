@@ -38,8 +38,19 @@ defmodule HungerGames.AssignedSchedules do
 
   """
   def get_assigned_schedule!(id), do: Repo.get!(AssignedSchedule, id)
+
   def get_assigned_schedule(id), do: Repo.get(AssignedSchedule, id)
 
+  def get_assigned_schedule_by_student_schedule(student_id, schedule_id) do
+    from(AssignedSchedule)
+    |> where([as], as.schedule_id == ^schedule_id and as.student_id == ^student_id)
+    |> Repo.one()
+  end
+
+  @spec create_assigned_schedule(
+          :invalid
+          | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: any
   @doc """
   Creates a assigned_schedule.
 
