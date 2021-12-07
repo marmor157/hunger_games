@@ -53,7 +53,7 @@ defmodule HungerGames.Students do
   """
   def create_student(attrs \\ %{}) do
     %Student{}
-    |> Student.changeset(attrs)
+    |> Student.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -71,7 +71,7 @@ defmodule HungerGames.Students do
   """
   def update_student(%Student{} = student, attrs) do
     student
-    |> Student.changeset(attrs)
+    |> Student.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -101,6 +101,6 @@ defmodule HungerGames.Students do
 
   """
   def change_student(%Student{} = student, attrs \\ %{}) do
-    Student.changeset(student, attrs)
+    Student.update_changeset(student, attrs)
   end
 end

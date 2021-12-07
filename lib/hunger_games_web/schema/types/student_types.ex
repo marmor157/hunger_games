@@ -5,6 +5,7 @@ defmodule HungerGamesWeb.Schema.StudentTypes do
 
   object :base_student do
     field :name, non_null(:string)
+    field :email, non_null(:string)
   end
 
   object :student do
@@ -18,9 +19,5 @@ defmodule HungerGamesWeb.Schema.StudentTypes do
     field :assigned_schedules, non_null(list_of(non_null(:assigned_schedule))) do
       resolve(dataloader(:db))
     end
-  end
-
-  input_object :create_student_input do
-    import_fields :base_student
   end
 end

@@ -20,7 +20,7 @@ defmodule HungerGames.MixProject do
   def application do
     [
       mod: {HungerGames.Application, []},
-      extra_applications: [:logger, :runtime_tools],
+      extra_applications: [:logger, :runtime_tools, :guardian],
       start_phases: [migrate: []]
     ]
   end
@@ -55,7 +55,9 @@ defmodule HungerGames.MixProject do
       {:dataloader, "~> 1.0"},
       {:ex_machina, "~> 2.7.0"},
       {:oban, "~> 2.10"},
-      {:cocktail, "~> 0.10"}
+      {:cocktail, "~> 0.10"},
+      {:guardian, "~> 2.0"},
+      {:bcrypt_elixir, "~> 2.0"}
     ]
   end
 
