@@ -2,7 +2,12 @@ defmodule HungerGames.Schedules.Schedule do
   use HungerGames.Schema
   import Ecto.Changeset
 
-  alias HungerGames.{AssignedSchedules.AssignedSchedule, Classes.Class, Requests.Request}
+  alias HungerGames.{
+    AssignedSchedules.AssignedSchedule,
+    Classes.Class,
+    Requests.Request,
+    Students.Student
+  }
 
   @type t :: %__MODULE__{
           id: id(),
@@ -13,10 +18,18 @@ defmodule HungerGames.Schedules.Schedule do
           end_date: Date.t(),
           classes: [Class.t()] | Ecto.Association.NotLoaded.t(),
           requests: [Request.t()] | Ecto.Association.NotLoaded.t(),
-          assigned_schedules: [AssignedSchedule.t()] | Ecto.Association.NotLoaded.t()
+          assigned_schedules: [AssignedSchedule.t()] | Ecto.Association.NotLoaded.t(),
+          creator: Student.t() | Ecto.Association.NotLoaded.t()
         }
 
-  @required_keys [:name, :registration_end_date, :registration_start_date, :start_date, :end_date]
+  @required_keys [
+    :name,
+    :registration_end_date,
+    :registration_start_date,
+    :start_date,
+    :end_date,
+    :creator_id
+  ]
   @optional_keys []
 
   schema "schedules" do
@@ -29,6 +42,7 @@ defmodule HungerGames.Schedules.Schedule do
     has_many :classes, Class
     has_many :assigned_schedules, AssignedSchedule
     has_many :requests, Request
+    belongs_to :creator, Student
 
     timestamps()
   end

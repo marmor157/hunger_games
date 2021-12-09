@@ -25,7 +25,6 @@ defmodule HungerGamesWeb.Schema.RequestTypes do
   end
 
   input_object :create_request_input do
-    field :student_id, non_null(:id)
     field :schedule_id, non_null(:id)
 
     field :classes, non_null(list_of(non_null(:class_request_input)))
