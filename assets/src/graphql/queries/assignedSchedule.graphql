@@ -1,8 +1,5 @@
-query getAssignedScheduleByStudentSchedule($studentId: ID!, $scheduleId: ID!) {
-  assignedScheduleByStudentSchedule(
-    studentId: $studentId
-    scheduleId: $scheduleId
-  ) {
+query getAssignedScheduleByStudentSchedule($scheduleId: ID!) {
+  assignedScheduleByScheduleId(scheduleId: $scheduleId) {
     id
     classes {
       id

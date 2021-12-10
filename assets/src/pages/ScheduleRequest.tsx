@@ -31,12 +31,11 @@ const ScheduleRequest: React.FC = () => {
     );
   }, [data?.schedule?.classes]);
 
-  const onSubmit: SubmitHandler<FieldValues> = ({ studentId, ...data }) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (!id) return;
     createRequest({
       variables: {
         input: {
-          studentId,
           scheduleId: id,
           classes: Object.entries(data).map(([key, value]) => ({
             classId: key,
