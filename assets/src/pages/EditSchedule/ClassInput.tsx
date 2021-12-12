@@ -37,15 +37,14 @@ const schema = yup.object({
 const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { control, handleSubmit, setValue, watch, formState } =
-    useForm<CreateClassInput>({
-      defaultValues: {
-        ...classDefault,
-        ...location.state,
-        pathname: undefined,
-      },
-      resolver: yupResolver(schema),
-    });
+  const { control, handleSubmit, setValue, watch } = useForm<CreateClassInput>({
+    defaultValues: {
+      ...classDefault,
+      ...location.state,
+      pathname: undefined,
+    },
+    resolver: yupResolver(schema),
+  });
   const { data } = useListLecturersQuery();
 
   return (

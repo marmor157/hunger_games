@@ -22,3 +22,22 @@ query getAssignedScheduleByStudentSchedule($scheduleId: ID!) {
     }
   }
 }
+
+query listMyAssignedSchedules {
+  listAssignedSchedules {
+    id
+    classes {
+      id
+      name
+    }
+    schedule {
+      id
+      name
+      startDate
+      endDate
+    }
+    student {
+      id
+    }
+  }
+}

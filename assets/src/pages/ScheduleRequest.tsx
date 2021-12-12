@@ -6,7 +6,6 @@ import { useCreateRequestMutation, useGetScheduleQuery } from "../graphql";
 
 import { Button } from "@chakra-ui/button";
 import ControlledRadioGroup from "../components/ControlledRadioGroup";
-import FormControlInput from "../components/FormControlInput";
 import { NavLink } from "react-router-dom";
 import RRule from "rrule";
 import { Radio } from "@chakra-ui/radio";
@@ -22,8 +21,7 @@ const ScheduleRequest: React.FC = () => {
     variables: { id: id ?? "" },
   });
   const [createRequest, { data: requestData }] = useCreateRequestMutation();
-  const { control, handleSubmit, setValue, watch } = useForm();
-  console.log(watch());
+  const { control, handleSubmit, setValue } = useForm();
   const classes = useMemo(() => {
     return groupBy(
       data?.schedule?.classes ?? [],
@@ -73,7 +71,7 @@ const ScheduleRequest: React.FC = () => {
             plan będzie dostępny pod tym adresem:
           </Text>
           <Link as={NavLink} to={link}>
-            {link}
+            {window.location.origin + link}
           </Link>
         </VStack>
       </Container>
@@ -108,11 +106,6 @@ const ScheduleRequest: React.FC = () => {
     <Container>
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={2}>
-          <FormControlInput
-            control={control}
-            name="studentId"
-            label="Student Id"
-          />
           {Object.values(visibleSubjects).map((classArray, index) => (
             <Box
               key={index}

@@ -28,7 +28,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
   return (
     <Box w="100%">
       <VStack align="stretch" spacing={4}>
-        <ScheduleInfo {...props} />
+        <ScheduleInfo {...props} id={id} />
         {isEditable && (
           <ClassInput
             classDefault={{ scheduleId: id }}
