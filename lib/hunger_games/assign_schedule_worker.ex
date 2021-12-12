@@ -1,6 +1,6 @@
 defmodule HungerGames.AssignScheduleWorker do
   use Oban.Worker,
-    queue: :schedule,
+    queue: :schedules,
     priority: 1,
     max_attempts: 3
 

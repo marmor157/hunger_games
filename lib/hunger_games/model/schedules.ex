@@ -23,6 +23,12 @@ defmodule HungerGames.Schedules do
     Repo.all(Schedule)
   end
 
+  def list_schedules_by_creator(owner_id) do
+    from(Schedule)
+    |> where([s], s.creator_id == ^owner_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single schedule.
 

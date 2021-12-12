@@ -27,3 +27,12 @@ query getSchedule($id: ID!) {
     }
   }
 }
+
+query listMySchedules {
+  listSchedules {
+    id
+    name
+    startDate
+    endDate
+  }
+}
