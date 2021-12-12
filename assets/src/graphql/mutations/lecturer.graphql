@@ -1,0 +1,6 @@
+mutation createLecturer($input: CreateLecturerInput!) {
+  lecturerCreate(input: $input) {
+    id
+    name
+  }
+}

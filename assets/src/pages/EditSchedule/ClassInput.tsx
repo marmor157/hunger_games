@@ -1,18 +1,21 @@
 import * as yup from "yup";
 
+import { Button, HStack } from "@chakra-ui/react";
 import {
   ClassType,
   CreateClassInput,
   useListLecturersQuery,
 } from "../../graphql";
+import { useLocation, useNavigate } from "react-router";
 
-import { Button } from "@chakra-ui/react";
 import FormControlInput from "../../components/FormControlInput";
 import FormControlNumberInput from "../../components/FormControlNumberInput";
 import FormControlSelect from "../../components/FormControlSelect";
 import RRuleInput from "./RRuleInput";
 import React from "react";
 import { VStack } from "@chakra-ui/layout";
+import classTypeToString from "../../utils/classTypeToString";
+import paths from "../../Routes/paths";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -32,11 +35,17 @@ const schema = yup.object({
 });
 
 const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
-  const { control, handleSubmit, setValue } = useForm<CreateClassInput>({
-    defaultValues: classDefault,
-    resolver: yupResolver(schema),
-  });
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { control, handleSubmit, setValue, watch, formState } =
+    useForm<CreateClassInput>({
+      defaultValues: {
+        ...classDefault,
+        ...location.state,
+        pathname: undefined,
+      },
+      resolver: yupResolver(schema),
+    });
   const { data } = useListLecturersQuery();
 
   return (
@@ -53,17 +62,31 @@ const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
           name={`sizeLimit`}
           label="Size Limit"
         />
-        <FormControlSelect
-          control={control}
-          name={`lecturerId`}
-          label="Lecturer"
-          options={data?.listLecturers ?? []}
-        />
+        <HStack alignItems="flex-end">
+          <FormControlSelect
+            control={control}
+            name={`lecturerId`}
+            label="Lecturer"
+            options={data?.listLecturers ?? []}
+          />
+          <Button
+            onClick={() => {
+              navigate(paths.lecturer.new, {
+                state: { ...watch(), pathname: location.pathname },
+              });
+            }}
+          >
+            Dodaj
+          </Button>
+        </HStack>
         <FormControlSelect
           control={control}
           name="type"
           label="Type"
-          options={Object.values(ClassType).map((a) => ({ id: a, name: a }))}
+          options={Object.values(ClassType).map((a) => ({
+            id: a,
+            name: classTypeToString[a],
+          }))}
         />
 
         <RRuleInput

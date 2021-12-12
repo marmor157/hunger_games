@@ -8,8 +8,13 @@ defmodule HungerGamesWeb.Schema.ClassResolvers do
   def create_class(_parent, %{input: input}, %{context: %{current_user: user}}) do
     with %Schedule{} = schedule <- Schedules.get_schedule(input.schedule_id),
          true <- schedule.creator_id == user.id,
-         :gt <- DateTime.compare(DateTime.utc_now(), schedule.registration_start_date) do
+         :lt <- DateTime.compare(DateTime.utc_now(), schedule.registration_start_date) do
       Classes.create_class(input)
+    else
+      false -> {:error, :unauthorized}
+      :gt -> {:error, :uneditable}
+      :eq -> {:error, :uneditable}
+      nil -> {:error, :not_found}
     end
   end
 
@@ -17,8 +22,13 @@ defmodule HungerGamesWeb.Schema.ClassResolvers do
     with %Class{} = class <- Classes.get_class(id),
          %Schedule{} = schedule <- Schedules.get_schedule(class.schedule_id),
          true <- schedule.creator_id == user.id,
-         :gt <- DateTime.compare(DateTime.utc_now(), schedule.registration_start_date) do
+         :lt <- DateTime.compare(DateTime.utc_now(), schedule.registration_start_date) do
       Classes.delete_class(class)
+    else
+      false -> {:error, :unauthorized}
+      :gt -> {:error, :uneditable}
+      :eq -> {:error, :uneditable}
+      nil -> {:error, :not_found}
     end
   end
 end

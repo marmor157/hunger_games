@@ -16,6 +16,9 @@ const pathsDict = {
     details: (scheduleId: string, studentId: string) =>
       `/${scheduleId}/${studentId}/details`,
   },
+  lecturer: {
+    new: "/new",
+  },
 };
 
 function applyRoutes(routes: Paths, basePath: string = ""): Paths {
