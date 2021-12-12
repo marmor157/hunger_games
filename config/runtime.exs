@@ -7,6 +7,11 @@ config :hunger_games, HungerGames.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   migration_timestamps: [type: :utc_datetime_usec]
 
+# Configure Guardian
+config :hunger_games, HungerGamesWeb.Auth.Guardian,
+  secret_key: System.fetch_env!("GUARDIAN_SECRET"),
+  ttl: String.to_integer(System.fetch_env!("GUARDIAN_TTL"))
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration

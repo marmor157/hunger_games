@@ -8,7 +8,7 @@ defmodule HungerGamesWeb.Schema do
 
   # Types
   import_types(Absinthe.Type.Custom)
-
+  import_types(Schema.AuthTypes)
   import_types(Schema.AssignedScheduleTypes)
   import_types(Schema.ClassTypes)
   import_types(Schema.ClassRequestTypes)
@@ -28,6 +28,7 @@ defmodule HungerGamesWeb.Schema do
   import_types(Schema.SystemQueries)
 
   # Mutations
+  import_types(Schema.AuthMutations)
   import_types(Schema.ClassMutations)
   import_types(Schema.LecturerMutations)
   import_types(Schema.RequestMutations)
@@ -44,6 +45,7 @@ defmodule HungerGamesWeb.Schema do
   end
 
   mutation do
+    import_fields(:auth_mutations_root)
     import_fields(:class_mutations_root)
     import_fields(:lecturer_mutations_root)
     import_fields(:request_mutations_root)

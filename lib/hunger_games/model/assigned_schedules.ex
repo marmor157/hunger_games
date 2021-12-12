@@ -23,6 +23,12 @@ defmodule HungerGames.AssignedSchedules do
     Repo.all(AssignedSchedule)
   end
 
+  def list_assigned_schedules_by_student_id(student_id) do
+    from(AssignedSchedule)
+    |> where([as], as.student_id == ^student_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single assigned_schedule.
 

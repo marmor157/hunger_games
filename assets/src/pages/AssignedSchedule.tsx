@@ -6,19 +6,19 @@ import { useGetAssignedScheduleByStudentScheduleQuery } from "../graphql";
 import { useParams } from "react-router";
 
 const AssignedSchedule: React.FC = () => {
-  const { studentId = "", scheduleId = "" } = useParams();
+  const { scheduleId = "" } = useParams();
 
   const { data } = useGetAssignedScheduleByStudentScheduleQuery({
-    variables: { studentId, scheduleId },
+    variables: { scheduleId },
   });
 
-  if (!data?.assignedScheduleByStudentSchedule)
+  if (!data?.assignedScheduleByScheduleId)
     return <Center>Nie ma jeszcze takiego planu</Center>;
 
   const {
     classes,
     schedule: { startDate, endDate, name },
-  } = data.assignedScheduleByStudentSchedule;
+  } = data.assignedScheduleByScheduleId;
 
   return (
     <Container maxW="container.2xl">

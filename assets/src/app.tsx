@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import Index from ".";
 import React from "react";
 import ReactDOM from "react-dom";
+import { UserContextProvider } from "./contexts/userContext";
 import client from "./graphql/client";
 import theme from "./theme";
 
@@ -16,10 +17,12 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <BrowserRouter>
-          <CSSReset />
-          <Index />
-        </BrowserRouter>
+        <UserContextProvider>
+          <BrowserRouter>
+            <CSSReset />
+            <Index />
+          </BrowserRouter>
+        </UserContextProvider>
       </ChakraProvider>
     </ApolloProvider>
   );

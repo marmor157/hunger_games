@@ -1,15 +1,12 @@
 defmodule HungerGamesWeb.Schema.StudentQueries do
   use Absinthe.Schema.Notation
 
-  alias HungerGamesWeb.Schema.StudentResolvers
+  alias HungerGamesWeb.Schema.Middleware
 
   object :student_queries do
-    @desc """
-    Get student details
-    """
-    field :student, type: :student do
-      arg(:id, :id)
-      resolve(&StudentResolvers.get_student/3)
+    field :me, type: :student do
+      middleware(Middleware.Authorization)
+      resolve(fn _parent, _args, %{context: %{current_user: me}} -> {:ok, me} end)
     end
   end
 end

@@ -23,7 +23,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
   onCreateClass,
   ...props
 }) => {
-  const isEditable = new Date(props.registrationStartDate) < new Date();
+  const isEditable = new Date(props.registrationStartDate) > new Date();
 
   return (
     <Box w="100%">

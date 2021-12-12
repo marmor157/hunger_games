@@ -16,9 +16,7 @@ defmodule HungerGamesWeb.Router do
 
   pipeline :graphql do
     plug :accepts, ["json", "graphql"]
-    # Needed for testing authorized queries in GraphQL Playground
-    # and HTTP Upload requests
-    # plug HungerGamesWeb.Context.HttpPlug
+    plug HungerGamesWeb.Context
   end
 
   scope "/api/v1" do
