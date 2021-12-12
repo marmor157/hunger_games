@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import Login from "./pages/Login";
+import Authentication from "./pages/Authentication/Authentication";
 import Router from "./Routes/Router";
 import { useColorMode } from "@chakra-ui/color-mode";
 import { useMeQuery } from "./graphql";
@@ -18,7 +18,7 @@ const Index: React.FC = () => {
   useEffect(() => {
     setColorMode("dark");
   }, [setColorMode]);
-  if (!state.user) return <Login />;
+  if (!state.user) return <Authentication />;
 
   return <Router />;
 };
