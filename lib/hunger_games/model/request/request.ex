@@ -41,5 +41,6 @@ defmodule HungerGames.Requests.Request do
     request
     |> cast(attrs, @required_keys ++ @optional_keys)
     |> validate_required(@required_keys)
+    |> unique_constraint(:student_request_exists, name: :requests_student_id_schedule_id_index)
   end
 end

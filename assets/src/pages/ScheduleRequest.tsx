@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 import RRule from "rrule";
 import { Radio } from "@chakra-ui/radio";
 import { Spinner } from "@chakra-ui/spinner";
+import classTypeToString from "../utils/classTypeToString";
 import extractDtendFromRRule from "../utils/extractDtendFromRRule";
 import groupBy from "../utils/groupBy";
 import paths from "../Routes/paths";
@@ -17,7 +18,7 @@ import { useParams } from "react-router";
 
 const ScheduleRequest: React.FC = () => {
   const { id } = useParams();
-  const { data } = useGetScheduleQuery({
+  const { data, error } = useGetScheduleQuery({
     variables: { id: id ?? "" },
   });
   const [createRequest, { data: requestData }] = useCreateRequestMutation();
@@ -120,7 +121,8 @@ const ScheduleRequest: React.FC = () => {
                   <Tr>
                     <Td>
                       <Text>
-                        {classArray[0].name} - {classArray[0].type}
+                        {classArray[0].name} -{" "}
+                        {classTypeToString[classArray[0].type]}
                       </Text>
                     </Td>
                     {classArray.map((_, index) => (
@@ -163,7 +165,12 @@ const ScheduleRequest: React.FC = () => {
               </Table>
             </Box>
           ))}
-          <Button type="submit">Submit</Button>
+          {error && (
+            <Text fontSize="2xl" colorScheme="red">
+              {error.message}
+            </Text>
+          )}
+          <Button type="submit">Wyślij</Button>
         </VStack>
       </form>
     </Container>

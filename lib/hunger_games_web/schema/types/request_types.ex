@@ -5,7 +5,7 @@ defmodule HungerGamesWeb.Schema.RequestTypes do
 
   object :request do
     field :id, non_null(:id)
-    field :date, non_null(:date)
+    field :date, non_null(:datetime)
 
     field :student, non_null(:student) do
       resolve(dataloader(:db))

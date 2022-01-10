@@ -4,18 +4,17 @@ defmodule HungerGames.StudentsTest do
   alias HungerGames.Students
 
   describe "students" do
-    alias HungerGames.Students.Student
+    alias HungerGames.Students.{Encryption, Student}
 
-    @valid_attrs %{name: "some name"}
+    @valid_attrs %{name: "some name", email: "some@email.com", password: "123"}
     @invalid_attrs %{name: nil}
 
     def student_fixture(attrs \\ %{}) do
-      {:ok, student} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> HungerGames.Students.create_student()
-
-      student
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> HungerGames.Students.create_student()
+      |> elem(1)
+      |> Map.put(:password, nil)
     end
 
     test "list_students/0 returns all students" do
@@ -25,14 +24,16 @@ defmodule HungerGames.StudentsTest do
 
     test "get_student!/1 returns the student with given id" do
       student = student_fixture()
-      assert Students.get_student!(student.id) == student
+      assert student.email == @valid_attrs.email
+      assert student.name == @valid_attrs.name
+      assert Encryption.validate_password(student, @valid_attrs.password)
     end
 
     test "create_student/1 with valid data creates a student" do
-      valid_attrs = %{name: "some name"}
-
-      assert {:ok, %Student{} = student} = Students.create_student(valid_attrs)
-      assert student.name == "some name"
+      assert {:ok, %Student{} = student} = Students.create_student(@valid_attrs)
+      assert student.name == @valid_attrs.name
+      assert student.email == @valid_attrs.email
+      assert Encryption.validate_password(student, @valid_attrs.password)
     end
 
     test "create_student/1 with invalid data returns error changeset" do
@@ -50,7 +51,7 @@ defmodule HungerGames.StudentsTest do
     test "update_student/2 with invalid data returns error changeset" do
       student = student_fixture()
       assert {:error, %Ecto.Changeset{}} = Students.update_student(student, @invalid_attrs)
-      assert student == Students.get_student!(student.id)
+      assert student.name == @valid_attrs.name
     end
 
     test "delete_student/1 deletes the student" do

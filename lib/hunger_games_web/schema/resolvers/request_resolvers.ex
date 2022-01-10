@@ -20,6 +20,9 @@ defmodule HungerGamesWeb.Schema.RequestResolvers do
       nil ->
         {:error, "No such schedule"}
 
+      {:error, _} ->
+        {:error, "Already exists"}
+
       _ ->
         {:error, "Registration closed"}
     end

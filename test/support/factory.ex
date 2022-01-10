@@ -17,7 +17,7 @@ defmodule HungerGames.Factory do
   alias Lecturers.Lecturer
   alias Requests.Request
   alias Schedules.Schedule
-  alias Students.Student
+  alias Students.{Student, Encryption}
 
   # Factories
   def assigned_schedule_factory(attrs) do
@@ -41,7 +41,9 @@ defmodule HungerGames.Factory do
       name: sequence("name"),
       rrule: "RRULE:FREQ=DAILY;INTERVAL=1",
       size_limit: Enum.random(1..25),
-      type: :exercises
+      type: :exercises,
+      lecturer: attrs[:lecturer] || build(:lecturer),
+      schedule: attrs[:schedule] || build(:schedule)
     }
 
     merge_attributes(class, attrs)
@@ -57,7 +59,9 @@ defmodule HungerGames.Factory do
 
   def request_factory(attrs) do
     request = %Request{
-      date: ~U[2021-10-31 15:10:00.000000Z]
+      date: ~U[2021-10-31 15:10:00.000000Z],
+      student: attrs[:student] || build(:student),
+      schedule: attrs[:schedule] || build(:schedule)
     }
 
     merge_attributes(request, attrs)
@@ -65,7 +69,12 @@ defmodule HungerGames.Factory do
 
   def schedule_factory(attrs) do
     schedule = %Schedule{
-      name: sequence("name")
+      name: sequence("name"),
+      creator: attrs[:student] || build(:student),
+      registration_end_date: DateTime.utc_now() |> DateTime.add(3600, :second),
+      registration_start_date: DateTime.utc_now(),
+      start_date: Date.utc_today() |> Date.add(1),
+      end_date: Date.utc_today() |> Date.add(2)
     }
 
     merge_attributes(schedule, attrs)
@@ -73,7 +82,10 @@ defmodule HungerGames.Factory do
 
   def student_factory(attrs) do
     student = %Student{
-      name: sequence("name")
+      name: sequence("name"),
+      email: sequence(:email, &"student-#{&1}@test.com"),
+      password: "password",
+      encrypted_password: Encryption.hash_password("password")
     }
 
     merge_attributes(student, attrs)
