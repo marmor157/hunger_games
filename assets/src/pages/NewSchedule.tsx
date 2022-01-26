@@ -19,7 +19,7 @@ const schema = yup.object({
   endDate: yup.date().required(),
 });
 
-const today = new Date().toISOString().substring(0, 16);
+const today = new Date();
 
 const NewSchedule: React.FC = () => {
   const navigate = useNavigate();
@@ -46,54 +46,58 @@ const NewSchedule: React.FC = () => {
       navigate(paths.schedule.edit(data.scheduleCreate.id));
   }, [data, navigate]);
 
-  const startDate = watch("startDate") ?? today;
+  const startDate = watch("startDate") ? new Date(watch("startDate")) : today;
+  const registrationStartDate = watch("registrationStartDate")
+    ? new Date(watch("registrationStartDate"))
+    : undefined;
 
   return (
     <Container>
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack align="stretch" spacing={4}>
-          <Text fontSize="2xl">Create new schedule</Text>
+          <Text fontSize="2xl">Stwórz nowy plan</Text>
           <FormControlInput
             control={control}
             name="name"
-            label="Name"
-            placeholder="Name"
+            label="Nazwa"
+            placeholder="Nazwa"
           />
           <FormControlInput
             control={control}
             name="startDate"
-            label="Start Date"
+            label="Data rozpoczęcia"
             type="date"
             min="today"
           />
           <FormControlInput
             control={control}
             name="endDate"
-            label="End Date"
+            label="Data zakończenia"
             type="date"
-            min={startDate}
+            min={startDate.toISOString().substring(0, 10)}
           />
           <FormControlInput
             control={control}
             name="registrationStartDate"
-            label="Registration Start Date"
+            label="Data rozpoczęcia zapisów"
             type="datetime-local"
-            max={startDate}
+            max={startDate.toISOString().substring(0, 16)}
           />
           <FormControlInput
             control={control}
             name="registrationEndDate"
-            label="Registration End Date"
+            label="Data zakończenia zapisów"
             type="datetime-local"
-            max={startDate}
+            min={registrationStartDate?.toISOString().substring(0, 16) ?? ""}
+            max={startDate.toISOString().substring(0, 16)}
           />
           {error && (
-            <Text fontSize="2xl" colorScheme="red">
+            <Text fontSize="2xl" colorScheme="red" color="red">
               {error.message}
             </Text>
           )}
           <Button type="submit" alignSelf="flex-end" isLoading={loading}>
-            Create
+            Stwórz
           </Button>
         </VStack>
       </form>

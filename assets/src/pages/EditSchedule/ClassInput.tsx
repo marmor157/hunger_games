@@ -53,19 +53,19 @@ const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
         <FormControlInput
           control={control}
           name={`name`}
-          label="Name"
-          placeholder="Name"
+          label="Nazwa"
+          placeholder="Nazwa"
         />
         <FormControlNumberInput
           control={control}
           name={`sizeLimit`}
-          label="Size Limit"
+          label="Limit miejsc"
         />
         <HStack alignItems="flex-end">
           <FormControlSelect
             control={control}
             name={`lecturerId`}
-            label="Lecturer"
+            label="Wykładowca"
             options={data?.listLecturers ?? []}
           />
           <Button
@@ -81,7 +81,7 @@ const ClassInput: React.FC<ClassInputProps> = ({ classDefault, onSave }) => {
         <FormControlSelect
           control={control}
           name="type"
-          label="Type"
+          label="Typ"
           options={Object.values(ClassType).map((a) => ({
             id: a,
             name: classTypeToString[a],

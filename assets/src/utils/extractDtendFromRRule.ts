@@ -1,10 +1,3 @@
-declare global {
-  interface Window {
-    extractDtendFromRRule: typeof extractDtendFromRRule;
-    tak: string;
-  }
-}
-
 const DTEND_KEY = "DTEND:";
 
 export default function extractDtendFromRRule(rrule: string): {
